@@ -63,7 +63,13 @@ private fun formatTraceroutePath(nodesList: List<String>, snrList: List<Int>): S
 
 private fun RouteDiscovery.getTracerouteResponse(
     getUser: (nodeNum: Int) -> String,
+    requestId: Int,
 ): String = buildString {
+    val timeDiff = System.currentTimeMillis().toInt() - requestId;
+    if (timeDiff < 30 * 1000 && routeList.count() == 1)
+    {
+        append("Response time: $timeDiff ms\n\n");
+    }
     if (routeList.isNotEmpty()) {
         append("Route traced toward destination:\n\n")
         append(formatTraceroutePath(routeList.map(getUser), snrTowardsList))
@@ -77,4 +83,4 @@ private fun RouteDiscovery.getTracerouteResponse(
 
 fun MeshProtos.MeshPacket.getTracerouteResponse(
     getUser: (nodeNum: Int) -> String,
-): String? = fullRouteDiscovery?.getTracerouteResponse(getUser)
+): String? = fullRouteDiscovery?.getTracerouteResponse(getUser, decoded.requestId)

@@ -1203,14 +1203,6 @@ class MeshService : Service(), Logging {
             val isAck = routingError == MeshProtos.Routing.Error.NONE_VALUE
             val p = packetRepository.get().getPacketById(requestId)
 
-            //if (isAck && p?.port_num == Portnums.PortNum.ROUTING_APP_VALUE)
-            //{
-                val ms = System.currentTimeMillis().toInt() - requestId
-                radioConfigRepository.setTracerouteResponse(
-                    "Pong! $ms ms"
-                )
-            //}
-
             // distinguish real ACKs coming from the intended receiver
             val m = when {
                 isAck && fromId == p?.data?.to -> MessageStatus.RECEIVED
@@ -2305,15 +2297,13 @@ class MeshService : Service(), Logging {
 
         override fun requestTraceroute(requestId: Int, destNum: Int) = toRemoteExceptions {
             sendToRadio(newMeshPacketTo(destNum).buildMeshPacket(
-                wantAck = true,
+                wantAck = false,
                 id = System.currentTimeMillis().toInt(),
-                hopLimit = 1,
+                hopLimit = 0,
                 channel = nodeDBbyNodeNum[destNum]?.channel ?: 0,
             ) {
-                portnumValue = Portnums.PortNum.ROUTING_APP_VALUE
-                    payload = MeshProtos.Routing.newBuilder().apply {
-                    }.build().toByteString()
-                wantResponse = false
+                portnumValue = Portnums.PortNum.TRACEROUTE_APP_VALUE
+                wantResponse = true
             })
         }
 
