@@ -66,7 +66,7 @@ private fun RouteDiscovery.getTracerouteResponse(
     requestId: Int,
 ): String = buildString {
     val timeDiff = System.currentTimeMillis().toInt() - requestId;
-    if (timeDiff < 30 * 1000 && routeList.count() == 0)
+    if (timeDiff > 0 && timeDiff < 30 * 1000 && routeList.count() == 2)
     {
         append("Response time: $timeDiff ms\n\n");
     }

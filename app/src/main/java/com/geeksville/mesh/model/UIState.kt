@@ -584,6 +584,16 @@ class UIViewModel @Inject constructor(
         }
     }
 
+    fun requestPing(destNum: Int) {
+        info("Requesting ping for '$destNum'")
+        try {
+            val packetId = meshService?.packetId ?: return
+            meshService?.requestPing(packetId, destNum)
+        } catch (ex: RemoteException) {
+            errormsg("Request ping error: ${ex.message}")
+        }
+    }
+
     fun removeNode(nodeNum: Int) = viewModelScope.launch(Dispatchers.IO) {
         info("Removing node '$nodeNum'")
         try {
@@ -703,6 +713,7 @@ class UIViewModel @Inject constructor(
             is NodeMenuAction.RequestUserInfo -> requestUserInfo(action.node.num)
             is NodeMenuAction.RequestPosition -> requestPosition(action.node.num)
             is NodeMenuAction.TraceRoute -> requestTraceroute(action.node.num)
+            is NodeMenuAction.Ping -> requestPing(action.node.num)
             else -> {}
         }
     }

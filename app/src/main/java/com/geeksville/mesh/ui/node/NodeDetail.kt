@@ -49,6 +49,7 @@ import androidx.compose.material.icons.filled.Height
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.KeyOff
 import androidx.compose.material.icons.filled.LightMode
+import androidx.compose.material.icons.filled.LeakAdd
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Memory
@@ -429,7 +430,6 @@ private fun DeviceActions(
             enabled = true,
             onClick = { onAction(NodeMenuAction.RequestUserInfo(node)) }
         )
-
         NodeActionButton(
             title = stringResource(id = R.string.traceroute),
             icon = Icons.Default.Route,
@@ -437,6 +437,15 @@ private fun DeviceActions(
             coolDownTime = 30.seconds,
             onClick = {
                 onAction(NodeMenuAction.TraceRoute(node))
+            }
+        )
+        NodeActionButton(
+            title = "Ping",
+            icon = Icons.Default.LeakAdd,
+            enabled = true,
+            coolDownTime = 5.seconds,
+            onClick = {
+                onAction(NodeMenuAction.Ping(node))
             }
         )
         NodeActionSwitch(

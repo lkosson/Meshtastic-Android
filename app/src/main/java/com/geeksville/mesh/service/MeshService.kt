@@ -2297,6 +2297,17 @@ class MeshService : Service(), Logging {
 
         override fun requestTraceroute(requestId: Int, destNum: Int) = toRemoteExceptions {
             sendToRadio(newMeshPacketTo(destNum).buildMeshPacket(
+                wantAck = true,
+                id = requestId,
+                channel = nodeDBbyNodeNum[destNum]?.channel ?: 0,
+            ) {
+                portnumValue = Portnums.PortNum.TRACEROUTE_APP_VALUE
+                wantResponse = true
+            })
+        }
+
+        override fun requestPing(requestId: Int, destNum: Int) = toRemoteExceptions {
+            sendToRadio(newMeshPacketTo(destNum).buildMeshPacket(
                 wantAck = false,
                 id = System.currentTimeMillis().toInt(),
                 hopLimit = 0,

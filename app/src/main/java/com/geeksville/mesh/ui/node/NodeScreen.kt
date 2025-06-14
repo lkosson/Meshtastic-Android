@@ -136,6 +136,7 @@ fun NodeScreen(
                             is NodeMenuAction.RequestUserInfo -> model.requestUserInfo(node.num)
                             is NodeMenuAction.RequestPosition -> model.requestPosition(node.num)
                             is NodeMenuAction.TraceRoute -> model.requestTraceroute(node.num)
+                            is NodeMenuAction.Ping -> model.requestPing(node.num)
                             is NodeMenuAction.MoreDetails -> navigateToNodeDetails(node.num)
                             is NodeMenuAction.Share -> showSharedContact = node
                         }

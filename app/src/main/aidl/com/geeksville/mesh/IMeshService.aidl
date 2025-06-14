@@ -127,6 +127,9 @@ interface IMeshService {
     /// Send traceroute packet with wantResponse to nodeNum
     void requestTraceroute(in int requestId, in int destNum);
 
+    /// Send traceroute packet without wantAck and with zero hop limit to nodeNum
+    void requestPing(in int requestId, in int destNum);
+
     /// Send Shutdown admin packet to nodeNum
     void requestShutdown(in int requestId, in int destNum);
 

@@ -239,6 +239,7 @@ sealed class NodeMenuAction {
     data class RequestUserInfo(val node: Node) : NodeMenuAction()
     data class RequestPosition(val node: Node) : NodeMenuAction()
     data class TraceRoute(val node: Node) : NodeMenuAction()
+    data class Ping(val node: Node) : NodeMenuAction()
     data class MoreDetails(val node: Node) : NodeMenuAction()
     data class Share(val node: Node) : NodeMenuAction()
 }
